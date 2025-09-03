@@ -2,16 +2,17 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { authFetch } from './utils/authFetch';
 import './TaskOverviewSection.css';
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const AdminTaskOverview = () => {
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState('');
 
   const fetchTasks = useCallback(async () => {
     try {
-      const res = await authFetch('/api/tasks/all');
+      const res = await authFetch(`${API_BASE}/api/tasks/all`);
       const data = await res.json();
 
-      // Ensure employee_name and employee_id always exist
       const formattedData = data.map(task => ({
         ...task,
         employee_name: task.employee_ref?.name || 'Unknown',
@@ -28,7 +29,6 @@ const AdminTaskOverview = () => {
     fetchTasks();
   }, [fetchTasks]);
 
-  // Safe filtering
   const filteredTasks = tasks.filter(task =>
     (task.employee_name || '').toLowerCase().includes(search.toLowerCase()) ||
     (task.employee_id || '').toLowerCase().includes(search.toLowerCase()) ||
