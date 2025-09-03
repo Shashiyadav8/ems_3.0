@@ -1,0 +1,17 @@
+.navbar-links li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: none;
+  color: rgb(236, 24, 9);
+  cursor: pointer;
+  
+}
