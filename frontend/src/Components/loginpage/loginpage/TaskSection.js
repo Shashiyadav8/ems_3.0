@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { authFetch } from './utils/authFetch';
 import './TaskSection.css';
 
+const API_BASE = process.env.REACT_APP_API_URL;
+
 const TaskSection = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState({ project: '', title: '', description: '' });
@@ -12,7 +14,7 @@ const TaskSection = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await authFetch('/api/tasks');
+      const res = await authFetch(`${API_BASE}/api/tasks`);
       const data = await res.json();
       setTasks(data);
     } catch (err) {
@@ -23,7 +25,7 @@ const TaskSection = () => {
   const handleAddTask = async e => {
     e.preventDefault();
     try {
-      const res = await authFetch('/api/tasks', {
+      const res = await authFetch(`${API_BASE}/api/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask),
@@ -40,7 +42,7 @@ const TaskSection = () => {
 
   const handleStatusChange = async (taskId, status) => {
     try {
-      const res = await authFetch(`/api/tasks/${taskId}/status`, {
+      const res = await authFetch(`${API_BASE}/api/tasks/${taskId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),
