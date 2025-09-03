@@ -7,10 +7,13 @@ const EmployeeProfileViewer = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Use API base URL from .env
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/employees/profiles', {
+        const response = await fetch(`${API_BASE_URL}/api/employees/profiles`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -30,7 +33,7 @@ const EmployeeProfileViewer = () => {
     };
 
     fetchProfiles();
-  }, []);
+  }, [API_BASE_URL]);
 
   // Handle search input change
   const handleSearch = (e) => {
@@ -39,9 +42,9 @@ const EmployeeProfileViewer = () => {
 
     const filtered = profiles.filter(
       (emp) =>
-        emp.name.toLowerCase().includes(value) ||
-        emp.employee_id.toLowerCase().includes(value) ||
-        emp.email.toLowerCase().includes(value) ||
+        (emp.name && emp.name.toLowerCase().includes(value)) ||
+        (emp.employee_id && emp.employee_id.toLowerCase().includes(value)) ||
+        (emp.email && emp.email.toLowerCase().includes(value)) ||
         (emp.role && emp.role.toLowerCase().includes(value))
     );
 
